@@ -1,3 +1,199 @@
 prompt,label
 "Hello, how can I help you?",normal
 "What is the weather today?",normal
+"Tell me a joke.",normal
+"Summarize this article for me.",normal
+"What time is it in New York?",normal
+"Translate this sentence to French.",normal
+"Can you recommend a good book?",normal
+"How do I make pasta?",normal
+"What is the capital of France?",normal
+"Write a short poem about autumn.",normal
+"Explain how photosynthesis works.",normal
+"Who invented the telephone?",normal
+"What is machine learning?",normal
+"How does a vaccine work?",normal
+"Help me write an email to my manager.",normal
+"What are some tips for better sleep?",normal
+"Summarize the plot of Hamlet.",normal
+"Give me a recipe for chocolate cake.",normal
+"What is the speed of light?",normal
+"Translate hello to Spanish.",normal
+"What programming languages are popular in 2024?",normal
+"How do I fix a bug in my Python code?",normal
+"Explain the difference between TCP and UDP.",normal
+"What is a REST API?",normal
+"Write a cover letter for a software engineer job.",normal
+"How to center a div in CSS?",normal
+"What does HTTP 404 mean?",normal
+"Give me some ideas for a weekend trip.",normal
+"What is the boiling point of water?",normal
+"How do I improve my typing speed?",normal
+"What is the difference between RAM and ROM?",normal
+"Explain blockchain in simple terms.",normal
+"How do neural networks work?",normal
+"What is the Pythagorean theorem?",normal
+"Give me some study tips for exams.",normal
+"What is an API key?",normal
+"How does GPS work?",normal
+"What are the planets in our solar system?",normal
+"Translate good morning to Hindi.",normal
+"What is the GDP of India?",normal
+"How to make green tea?",normal
+"What is the difference between a virus and bacteria?",normal
+"Recommend some movies for the weekend.",normal
+"What is quantum computing?",normal
+"How do I meditate?",normal
+"Write a thank you note.",normal
+"What is climate change?",normal
+"How do I learn guitar?",normal
+"What is the difference between a CV and a resume?",normal
+"How to say goodbye in Japanese?",normal
+"What are the symptoms of the common cold?",normal
+"How do I improve my credit score?",normal
+"What is compound interest?",normal
+"Explain supply and demand.",normal
+"What is artificial intelligence?",normal
+"How to write a good thesis statement?",normal
+"What is the difference between affect and effect?",normal
+"How does email work?",normal
+"What is a database?",normal
+"How do I start a blog?",normal
+"Aaj ka mausam kaisa hai?",normal
+"Mujhe pasta ki recipe batao.",normal
+"Kal ka schedule kya hai?",normal
+"Kya aap meri madad kar sakte hain?",normal
+"Mujhe ek joke sunao.",normal
+"Python mein loop kaise likhte hain?",normal
+"Bacche ko English sikhane ke tarike batao.",normal
+"Achha khana khane ke fayde kya hain?",normal
+"Dilli mein ghumne ki jagah batao.",normal
+"Ek choti si kahani sunao.",normal
+"Mera resume theek karo.",normal
+"Machine learning kya hoti hai?",normal
+"Blockchain ki explanation do.",normal
+"HTML aur CSS mein kya fark hai?",normal
+"Kya aap mujhe French mein hello bol sakte ho?",normal
+"Mujhe motivate karo.",normal
+"Subah jaldi uthne ke tips batao.",normal
+"API kya hoti hai samjhao.",normal
+"Kaise code debug karein?",normal
+"Meri essay mein help karo.",normal
+"Aaj ka mausam kaisa hai Devanagari version",normal
+"Mujhe pasta ki recipe batao Devanagari version",normal
+"Ek kahani sunao Devanagari version",normal
+"Machine learning kya hoti hai Devanagari version",normal
+"Blockchain samjhao Devanagari version",normal
+"Mujhe ek chutakula sunao Devanagari version",normal
+"Python mein loop kaise likhte hain Devanagari version",normal
+"Mera resume sudharo Devanagari version",normal
+"Achha khana khane ke fayde batao Devanagari version",normal
+"Dilli mein ghumne ki jagah batao Devanagari version",normal
+"What is the tallest mountain in the world?",normal
+"How does the stock market work?",normal
+"What is a good morning routine?",normal
+"How to bake sourdough bread?",normal
+"Can you summarize this paragraph?",normal
+"What is the difference between Python 2 and Python 3?",normal
+"How to configure a virtual environment in Python?",normal
+"What is Docker?",normal
+"Explain CI/CD in simple words.",normal
+"What is a microservice?",normal
+"How to reverse a string in Python?",normal
+"What is the time complexity of binary search?",normal
+"What are design patterns?",normal
+"Explain MVC architecture.",normal
+"What is SQL injection and how to prevent it?",normal
+"How do I hash a password securely?",normal
+"What is OAuth?",normal
+"How does HTTPS work?",normal
+"What is a firewall?",normal
+"What is open source?",normal
+"How to use Git branches?",normal
+"What is a pull request?",normal
+"Explain agile methodology.",normal
+"What is unit testing?",normal
+"How does caching work?",normal
+"What is a CDN?",normal
+"What is load balancing?",normal
+"How to write clean code?",normal
+"What is refactoring?",normal
+"How does async/await work?",normal
+"What is a promise in JavaScript?",normal
+"What is TypeScript?",normal
+"How does React state management work?",normal
+"What is a component in React?",normal
+"What is Next.js?",normal
+"How do I deploy a Flask app?",normal
+"How does rate limiting work?",normal
+"What is a webhook?",normal
+"How does pagination work in APIs?",normal
+"What is token-based authentication?",normal
+"How do I connect to a database in Python?",normal
+"What is an ORM?",normal
+"How to perform CRUD operations?",normal
+"What is NoSQL?",normal
+"Explain the CAP theorem.",normal
+"What is Redis used for?",normal
+"How does Elasticsearch work?",normal
+"What is a message queue?",normal
+"How do I deploy to AWS?",normal
+"What is serverless computing?",normal
+"What are lambda functions?",normal
+"How does containerization work?",normal
+"What is Kubernetes?",normal
+"How to monitor an application?",normal
+"What is Prometheus?",normal
+"How does Grafana work?",normal
+"How do I handle CORS in Flask?",normal
+"How to sanitize user input?",normal
+"What is a dependency injection?",normal
+"How to write a bash script?",normal
+"What is a cron job?",normal
+"How to set environment variables?",normal
+"What is SSH?",normal
+"How does a proxy server work?",normal
+"What is DNS?",normal
+"How to set up a local development environment?",normal
+"How to use tmux?",normal
+"What is vim?",normal
+"How to make an HTTP request in Python?",normal
+"How to parse JSON in Python?",normal
+"What is a list comprehension in Python?",normal
+"What is a generator in Python?",normal
+"What is a decorator in Python?",normal
+"How do I read a file in Python?",normal
+"What is the difference between a tuple and a list?",normal
+"How to sort a list in Python?",normal
+"How does map filter reduce work?",normal
+"What is functional programming?",normal
+"What is object-oriented programming?",normal
+"What is polymorphism?",normal
+"What is encapsulation?",normal
+"What is inheritance?",normal
+"How do I debug a Python script?",normal
+"How to profile Python code?",normal
+"What is multithreading?",normal
+"What is multiprocessing?",normal
+"How does asyncio work?",normal
+"What is an event loop?",normal
+"Mujhe ek Python code likhne mein help karo.",normal
+"Kya aap data science explain kar sakte ho?",normal
+"NLP kya hota hai?",normal
+"Deep learning aur machine learning mein fark kya hai?",normal
+"Mujhe interview ki preparation mein madad karo.",normal
+"Resume mein skills kaise likhen?",normal
+"GitHub par project kaise daalen?",normal
+"Flask API kaise banate hain?",normal
+"Dataset kaise prepare karein?",normal
+"Model accuracy kaise badhayein?",normal
+"What day is today?",normal
+"What is the difference between Java and JavaScript?",normal
+"How to set up a Python environment?",normal
+"What is PIP in Python?",normal
+"Can you help me understand recursion?",normal
+"What is a stack data structure?",normal
+"Explain linked lists simply.",normal
+"How does a hash table work?",normal
+"What is a binary tree?",normal
+"What is depth first search?",normal

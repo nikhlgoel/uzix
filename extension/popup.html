@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Uzix</title>
+  <style>
+    body { font-family: monospace; width: 260px; padding: 14px; margin: 0; background: #0f172a; color: #e2e8f0; }
+    h2 { margin: 0 0 10px; font-size: 15px; color: #38bdf8; }
+    textarea { width: 100%; height: 70px; background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 6px; padding: 6px; font-size: 12px; resize: none; box-sizing: border-box; }
+    button { margin-top: 8px; width: 100%; padding: 7px; background: #0ea5e9; border: none; border-radius: 6px; color: #fff; font-size: 13px; cursor: pointer; }
+    button:hover { background: #0284c7; }
+    #result { margin-top: 10px; padding: 8px; border-radius: 6px; font-size: 12px; display: none; }
+    .SAFE { background: #166534; color: #bbf7d0; }
+    .SUSPICIOUS { background: #854d0e; color: #fef3c7; }
+    .DANGEROUS { background: #991b1b; color: #fee2e2; }
+    .error { background: #374151; color: #9ca3af; }
+  </style>
+</head>
+<body>
+  <h2>Uzix Detector</h2>
+  <textarea id="input" placeholder="Paste a prompt to check..."></textarea>
+  <button id="check">Check</button>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById("check").addEventListener("click", async () => {
+      const text = document.getElementById("input").value.trim();
+      const resultEl = document.getElementById("result");
+      if (!text) return;
+
+      resultEl.style.display = "none";
+      resultEl.className = "";
+
+      try {
+        const res = await fetch("http://127.0.0.1:5000/detect", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: text }),
+        });
+        const data = await res.json();
+        resultEl.textContent = `${data.risk} — ${data.info}`;
+        resultEl.className = data.risk;
+      } catch (_) {
+        resultEl.textContent = "Could not connect to Uzix API. Is it running?";
+        resultEl.className = "error";
+      }
+
+      resultEl.style.display = "block";
+    });
+  </script>
+</body>
+</html>

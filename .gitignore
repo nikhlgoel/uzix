@@ -72,3 +72,7 @@ node_modules/
 
 # Browser extension build
 extension/dist/
+
+# Trained model files (retrain locally after clone)
+detector/model.pkl
+detector/vectorizer.pkl
