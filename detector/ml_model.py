@@ -3,6 +3,9 @@ ML-based prompt injection classifier — Phase 2
 Uses TF-IDF + Logistic Regression (scikit-learn)
 Trains on dataset/normal.csv + dataset/injections.csv
 Saves model to detector/model.pkl
+
+NOTE: preprocessing is applied during training AND inference.
+This was the F-009 mismatch. Fixed: both paths now see the same text.
 """
 
 import os
@@ -12,6 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
+from detector.preprocessor import preprocess
 
 DATASET_DIR = os.path.join(os.path.dirname(__file__), "..", "dataset")
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "model.pkl")
@@ -28,7 +32,8 @@ def load_dataset():
             for row in reader:
                 text = row.get("prompt", "").strip().strip('"')
                 if text:
-                    texts.append(text)
+                    # preprocess at training time — same as inference
+                    texts.append(preprocess(text))
                     labels.append(label)
 
     return texts, labels
@@ -86,9 +91,11 @@ def load_model():
 def predict(text: str) -> dict:
     """
     Returns risk level and confidence using the trained ML model.
+    Preprocesses input first — consistent with how the model was trained.
     """
     clf, vectorizer = load_model()
-    vec = vectorizer.transform([text])
+    cleaned = preprocess(text)
+    vec = vectorizer.transform([cleaned])
     label = clf.predict(vec)[0]
     proba = clf.predict_proba(vec)[0]
     confidence = round(float(max(proba)) * 100, 2)

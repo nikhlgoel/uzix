@@ -63,7 +63,6 @@ Each entry: what broke, how many times it hit us, root cause, fix.
 | F-006 | model.pkl not committed (gitignored) — need to retrain after fresh clone | Medium |
 | F-007 | Extension hardcodes API URL to 127.0.0.1:5000 — breaks if API changes port | Low |
 | F-008 | Firefox not supported (MV3 only) | Low — planned for v1.0 |
-| F-009 | Preprocessing mismatch: rule-based sees preprocessed text, ML sees raw text | Medium |
 
 ---
 
@@ -71,8 +70,9 @@ Each entry: what broke, how many times it hit us, root cause, fix.
 - **Count:** Discovered while building hybrid.py
 - **Symptom:** Rule-based calls preprocess() internally. ML model was trained on raw CSV text and predict() receives raw input. In the hybrid, we pass preprocessed text to ML — but the model has never seen preprocessed text during training.
 - **Root cause:** ML training pipeline and rule-based detection pipeline developed separately, no shared preprocessing step enforced.
-- **Options:**
-  1. Retrain ML model on preprocessed text — consistent, but changes what the model learned
-  2. Pass raw text to ML in hybrid — inconsistent with what rules see, but matches training distribution
-  3. Preprocess both at training and inference time — cleanest but requires retraining
-- **Status:** Open — decision pending. Tracked in research/log.md.
+- **Fix applied (session 2):**
+  - `ml_model.py` `load_dataset()` now calls `preprocess(text)` on each row at training time
+  - `ml_model.py` `predict()` now calls `preprocess(text)` before vectorizing
+  - `hybrid.py` now passes raw `text` (not `cleaned`) to `ml_predict` — since `ml_predict` preprocesses internally, double-processing is avoided
+  - Model must be **retrained** after these changes for them to take effect (`python detector/ml_model.py`)
+- **Status:** Fixed. Model retrain required.

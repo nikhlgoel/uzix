@@ -2,9 +2,9 @@ from flask import Flask, request, jsonify
 import sys
 import os
 
-# so detector module can be imported from project root
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from detector.rule_based import detect_prompt_injection
+
+from detector.hybrid import detect as hybrid_detect
 
 app = Flask(__name__)
 
@@ -13,7 +13,7 @@ def index():
     return jsonify({
         "name": "Uzix",
         "description": "Multilingual prompt injection detector API",
-        "version": "0.1",
+        "version": "0.2.1",
         "endpoints": {
             "/detect": "POST - detect prompt injection in text",
             "/health": "GET - health check"
@@ -34,22 +34,25 @@ def detect():
     if not isinstance(prompt, str) or not prompt.strip():
         return jsonify({"error": "'prompt' must be a non-empty string"}), 400
 
-    # cap input length to prevent abuse
     if len(prompt) > 5000:
         return jsonify({"error": "Input too long. Max 5000 characters."}), 413
 
-    result = detect_prompt_injection(prompt)
+    result = hybrid_detect(prompt)
+    risk = result["risk"]
 
     return jsonify({
         "prompt": prompt,
-        "risk": result,
+        "risk": risk,
+        "rule_risk": result["rule_risk"],
+        "rule_matches": result["rule_matches"],
+        "ml": result["ml"],
+        "ml_available": result["ml_available"],
         "info": {
             "SAFE": "No injection patterns detected.",
-            "SUSPICIOUS": "One injection pattern matched. Review recommended.",
-            "DANGEROUS": "Multiple injection patterns matched. High risk."
-        }.get(result)
+            "SUSPICIOUS": "One or more injection signals found. Review recommended.",
+            "DANGEROUS": "Multiple injection signals matched. High risk."
+        }.get(risk)
     })
 
 if __name__ == "__main__":
-    # debug=False for any real deployment
     app.run(host="127.0.0.1", port=5000, debug=True)

@@ -40,7 +40,8 @@ def detect(text: str, use_ml: bool = True) -> dict:
     ml_result = None
     if use_ml and _ml_available:
         try:
-            ml_result = ml_predict(cleaned)
+            # ml_predict preprocesses internally — pass raw text
+            ml_result = ml_predict(text)
         except Exception:
             ml_result = None
 

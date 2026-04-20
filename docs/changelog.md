@@ -4,7 +4,54 @@ Format: [version] — date — description
 
 ---
 
-## [0.2.1] — April 20, 2026
+## [0.2.2] — session 2
+
+### Fixed
+- **F-009 — Preprocessing mismatch** (critical): `ml_model.py` now preprocesses text
+  at training time (`load_dataset`) and inference time (`predict`). `hybrid.py` updated
+  to pass raw text to `ml_predict` to avoid double-processing.
+
+### Changed
+- `detector/rule_based.py` — patterns reorganised into 9 attack classes (80+ patterns, up from 25):
+  - `OVERRIDE_PATTERNS` — direct instruction cancellation (now handles multi-word qualifiers)
+  - `JAILBREAK_PATTERNS` — DAN, god mode, developer mode, unrestricted mode
+  - `PERSONA_PATTERNS` — identity/role hijacking
+  - `LEAKING_PATTERNS` — prompt extraction (Perez & Ribeiro 2022 — second attack class)
+  - `CONTEXT_PARTITION_PATTERNS` — HouYi-style separator attacks, XML tag injection
+  - `ALIGNMENT_BYPASS_PATTERNS` — RLHF/safety training override attempts
+  - `PRIVILEGE_PATTERNS` — false authority claims
+  - `HINDI_PATTERNS` — Devanagari script
+  - `HINGLISH_PATTERNS` — transliterated Hinglish (18 patterns)
+- `api/app.py` — API now uses hybrid detector (`detector.hybrid.detect`) instead of
+  rule-based only. Response includes `rule_risk`, `rule_matches`, and `ml` fields.
+- `research/findings.md` — expanded with all 6 academic papers read, key insights mapped
+  to codebase design decisions
+- `docs/failure_report.md` — F-009 marked as Fixed
+
+### Added
+- `setup.py` — project is now pip-installable (`pip install -e .`)
+- `detector/__main__.py` — CLI: `python -m detector "some prompt"` or `uzix "prompt"`
+  - Exit codes: 0=SAFE, 1=SUSPICIOUS, 2=DANGEROUS (pipe-friendly)
+- `detector/__init__.py` — exports `detect`, `detect_prompt_injection`, `preprocess`
+- `detector/test_hybrid.py` — 18 new tests for hybrid detector (direct, persona, leaking,
+  Hinglish, context partition, edge cases)
+- `detector/ml_model.py` — retrained at 97.50% accuracy on preprocessed dataset
+
+### Test results
+- 49 tests — 49 passed, 0 failed
+
+### Research papers incorporated
+All patterns and design decisions now grounded in published work:
+- Perez & Ribeiro 2022 — arXiv:2211.09527
+- Greshake et al. 2023 — arXiv:2302.12173
+- Liu et al. 2023 (HouYi) — arXiv:2306.05499
+- Liu et al. 2023 (USENIX) — arXiv:2310.12815
+- Yi et al. 2023 (BIPIA) — arXiv:2312.14197
+- OWASP LLM Top 10
+
+---
+
+## [0.2.1] — session 1
 
 ### Added
 - `detector/hybrid.py` — combines rule-based + ML into a single scorer
