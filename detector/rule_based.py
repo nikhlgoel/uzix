@@ -4,6 +4,7 @@
 
 import re
 from typing import Literal
+from detector.preprocessor import preprocess
 
 # Common English prompt injection patterns
 ENGLISH_PATTERNS = [
@@ -48,14 +49,15 @@ RiskLevel = Literal["SAFE", "SUSPICIOUS", "DANGEROUS"]
 
 def detect_prompt_injection(text: str) -> RiskLevel:
     """
+    Preprocesses input to strip obfuscation, then runs pattern matching.
     Returns:
-        - "DANGEROUS" if strong match to known attack pattern
-        - "SUSPICIOUS" if partial/weak match
+        - "DANGEROUS" if 2+ patterns matched
+        - "SUSPICIOUS" if 1 pattern matched
         - "SAFE" otherwise
     """
-    matches = [pat for pat in COMPILED_PATTERNS if pat.search(text)]
+    cleaned = preprocess(text)
+    matches = [pat for pat in COMPILED_PATTERNS if pat.search(cleaned)]
     if matches:
-        # If multiple strong matches, mark as dangerous
         if len(matches) > 1:
             return "DANGEROUS"
         return "SUSPICIOUS"
