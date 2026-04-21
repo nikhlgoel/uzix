@@ -12,21 +12,35 @@
 #   4. If SUSPICIOUS by rules → use ML to confirm or upgrade
 #   5. Disagreements are surfaced in the result so callers can see what fired
 
-import os
 from detector.preprocessor import preprocess
-from detector.rule_based import detect_prompt_injection, COMPILED_PATTERNS
+from detector.rule_based import COMPILED_PATTERNS
 
-_ml_available = False
+_ml_import_error = None
 try:
-    from detector.ml_model import predict as ml_predict, load_model
-    load_model()
-    _ml_available = True
-except Exception:
-    pass
+    from detector.ml_model import load_model, model_is_available, predict as ml_predict
+except Exception as exc:
+    _ml_import_error = exc
+    load_model = None
+    model_is_available = None
+    ml_predict = None
+
+
+def _is_ml_available() -> bool:
+    if _ml_import_error is not None or load_model is None or model_is_available is None:
+        return False
+    if not model_is_available():
+        return False
+
+    try:
+        load_model()
+        return True
+    except Exception:
+        return False
 
 
 def detect(text: str, use_ml: bool = True) -> dict:
     cleaned = preprocess(text)
+    ml_available = _is_ml_available()
 
     # rule-based pass
     rule_matches = [pat.pattern for pat in COMPILED_PATTERNS if pat.search(cleaned)]
@@ -38,7 +52,7 @@ def detect(text: str, use_ml: bool = True) -> dict:
         rule_risk = "SAFE"
 
     ml_result = None
-    if use_ml and _ml_available:
+    if use_ml and ml_available and ml_predict is not None:
         try:
             # ml_predict preprocesses internally — pass raw text
             ml_result = ml_predict(text)
@@ -66,7 +80,7 @@ def detect(text: str, use_ml: bool = True) -> dict:
         "rule_risk": rule_risk,
         "rule_matches": rule_matches,
         "ml": ml_result,
-        "ml_available": _ml_available,
+        "ml_available": ml_available,
     }
 
 

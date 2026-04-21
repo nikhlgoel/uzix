@@ -4,6 +4,31 @@ Format: [version] — date — description
 
 ---
 
+## [0.3.0] — April 21, 2026
+
+### Added
+- `uzix-serve` command via `uzix/server.py` using Waitress for a production-friendly HTTP server
+- `uzix-train` command via `uzix/train.py` for one-command model training
+- `uzix/logging_utils.py` — structured JSON/key-value request logging
+- `uzix/security.py` — API key extraction, client IP handling, in-memory rate limiting
+- `.env.example` — environment-based runtime configuration template
+- `Dockerfile` — container build that installs Uzix and trains the model at image build time
+- `docker-compose.yml` — one-command local container setup
+- `.dockerignore` — leaner Docker builds
+- `detector/test_api_hardening.py` — tests for request IDs, API keys, rate limiting, and health metadata
+
+### Changed
+- `uzix/api.py` — now includes request IDs, structured request logs, API key auth, rate limit headers, and batch endpoint hardening
+- `uzix/config.py` — now supports `.env` loading, API keys, rate limit config, and structured log toggles
+- `detector/hybrid.py` — ML availability is now checked dynamically instead of only once at import time
+- `README.md` — updated with package install, `uzix-serve`, `uzix-train`, auth, batch API, and Docker setup
+- `setup.py` / `requirements.txt` — added `waitress` and `python-dotenv`; version bumped to `0.3.0`
+
+### Test results
+- 59 tests — hardening and public API coverage included
+
+---
+
 ## [0.2.2] — session 2
 
 ### Fixed

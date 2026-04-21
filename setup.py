@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="uzix",
-    version="0.2.1",
+    version="0.3.0",
     description="Multilingual prompt injection detector — English, Hindi, Hinglish",
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
@@ -14,10 +14,14 @@ setup(
         "flask>=2.3.0",
         "scikit-learn>=1.3.0",
         "numpy>=1.24.0",
+        "python-dotenv>=1.0.1",
+        "waitress>=3.0.0",
     ],
     entry_points={
         "console_scripts": [
-            "uzix=detector.__main__:main",
+            "uzix=uzix.__main__:main",
+            "uzix-serve=uzix.server:main",
+            "uzix-train=uzix.train:main",
         ],
     },
     classifiers=[

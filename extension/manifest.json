@@ -3,8 +3,8 @@
   "name": "Uzix - Prompt Injection Detector",
   "version": "0.1.0",
   "description": "Detects prompt injection attempts in text input fields on any webpage.",
-  "permissions": ["activeTab", "scripting"],
-  "host_permissions": ["http://127.0.0.1:5000/*"],
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Uzix Detector"

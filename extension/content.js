@@ -1,12 +1,37 @@
 // Uzix Content Script
-// Watches text inputs and textareas, checks against the local Uzix API on paste/submit
+// Watches text inputs and textareas, checks against the configured Uzix API.
 
-const API_URL = "http://127.0.0.1:5000/detect";
+const DEFAULT_API_URL = "http://127.0.0.1:5000/detect";
 const RISK_COLORS = {
   SAFE: "#22c55e",
   SUSPICIOUS: "#f59e0b",
   DANGEROUS: "#ef4444",
 };
+let apiUrlCache = DEFAULT_API_URL;
+let apiUrlLoaded = false;
+
+async function getApiUrl() {
+  if (apiUrlLoaded) {
+    return apiUrlCache;
+  }
+
+  try {
+    const stored = await chrome.storage.sync.get({ apiUrl: DEFAULT_API_URL });
+    apiUrlCache = stored.apiUrl || DEFAULT_API_URL;
+  } catch (_) {
+    apiUrlCache = DEFAULT_API_URL;
+  }
+
+  apiUrlLoaded = true;
+  return apiUrlCache;
+}
+
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === "sync" && changes.apiUrl) {
+    apiUrlCache = changes.apiUrl.newValue || DEFAULT_API_URL;
+    apiUrlLoaded = true;
+  }
+});
 
 function createBadge(risk, info) {
   const badge = document.createElement("div");
@@ -43,7 +68,8 @@ function showBadge(risk, info) {
 async function checkText(text) {
   if (!text || text.trim().length < 5) return;
   try {
-    const res = await fetch(API_URL, {
+    const apiUrl = await getApiUrl();
+    const res = await fetch(apiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: text }),

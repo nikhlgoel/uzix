@@ -20,6 +20,7 @@ from detector.preprocessor import preprocess
 DATASET_DIR = os.path.join(os.path.dirname(__file__), "..", "dataset")
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "model.pkl")
 VECTORIZER_PATH = os.path.join(os.path.dirname(__file__), "vectorizer.pkl")
+MODEL_CACHE = None
 
 
 def load_dataset():
@@ -40,6 +41,7 @@ def load_dataset():
 
 
 def train():
+    global MODEL_CACHE
     print("Loading dataset...")
     texts, labels = load_dataset()
     print(f"  Total samples: {len(texts)} ({labels.count(0)} normal, {labels.count(1)} injection)")
@@ -73,19 +75,30 @@ def train():
     with open(VECTORIZER_PATH, "wb") as f:
         pickle.dump(vectorizer, f)
 
+    MODEL_CACHE = (clf, vectorizer)
     print(f"\nModel saved to {MODEL_PATH}")
     print(f"Vectorizer saved to {VECTORIZER_PATH}")
     return clf, vectorizer
 
 
-def load_model():
+def model_is_available() -> bool:
+    return os.path.exists(MODEL_PATH) and os.path.exists(VECTORIZER_PATH)
+
+
+def load_model(force_reload: bool = False):
+    global MODEL_CACHE
+    if MODEL_CACHE is not None and not force_reload:
+        return MODEL_CACHE
+
     if not os.path.exists(MODEL_PATH) or not os.path.exists(VECTORIZER_PATH):
         raise FileNotFoundError("Model not trained yet. Run: python detector/ml_model.py")
     with open(MODEL_PATH, "rb") as f:
         clf = pickle.load(f)
     with open(VECTORIZER_PATH, "rb") as f:
         vectorizer = pickle.load(f)
-    return clf, vectorizer
+
+    MODEL_CACHE = (clf, vectorizer)
+    return MODEL_CACHE
 
 
 def predict(text: str) -> dict:
